@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const App = () => {
   const [data, setData] = useState(JSON.parse(localStorage.getItem('todo')))
-  const [edit, setEdit] = useState('')
+  const [edit, setEdit] = useState({})
   const [inputValue, setinputValue] = useState('')
   const onAdd = () => {
     if (inputValue !== '') {
@@ -46,6 +46,7 @@ const App = () => {
   }
   const onSave = () => {
     let mockData = [...data]
+
     for (let i = 0; i < data.length; i++) {
       if (mockData[i].id === edit.id) {
         mockData[i] = { ...mockData[i], value: edit.value }
@@ -55,9 +56,11 @@ const App = () => {
     setData(mockData)
     localStorage.setItem('todo', JSON.stringify(mockData))
   }
+
   const onDelete = (id) => {
-    setData(data.filter(item => { return item.id !== id }))
-    localStorage.setItem('todo', JSON.stringify(data))
+    const newData = data.filter(item => { return item.id !== id })
+    setData(newData)
+    localStorage.setItem('todo', JSON.stringify(newData))
   }
 
   return (
