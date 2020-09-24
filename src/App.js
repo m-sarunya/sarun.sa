@@ -4,7 +4,7 @@ import './App.css';
 import { v4 as uuidv4 } from 'uuid';
 
 const App = () => {
-  const [data, setData] = useState(JSON.parse(localStorage.getItem('todo')))
+  const [data, setData] = useState(JSON.parse(localStorage.getItem('todo')) || [])
   const [edit, setEdit] = useState({})
   const [inputValue, setinputValue] = useState('')
   const onAdd = () => {
@@ -17,8 +17,9 @@ const App = () => {
         }, ...data]
       setinputValue('')
       setData(nowData)
+      localStorage.setItem('todo', JSON.stringify(nowData))
     }
-    localStorage.setItem('todo', JSON.stringify(data))
+
   }
   const updateInputValue = (event) => {
     setinputValue(event.target.value)
@@ -68,7 +69,7 @@ const App = () => {
       <h1>TO DO LIST</h1>
       <input value={inputValue} onChange={updateInputValue} onKeyDown={onEnter}></input>
       <button className="Add" onClick={onAdd}>Add</button>
-      {data.map((item, index) => (
+      {data?.map((item, index) => (
         <div className="item" key={index}>
           <Row justify='space-between' align='middle'>
             <Col>
